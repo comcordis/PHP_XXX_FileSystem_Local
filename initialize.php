@@ -5,4 +5,5 @@ require_once 'XXX_Log.php';
 
 XXX::addEventListener('beforeExecutionExit', 'XXX_Log::saveBuffers');
 
+echo 'Filesystem local is loaded';
 ?>
