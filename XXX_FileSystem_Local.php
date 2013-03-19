@@ -1288,17 +1288,20 @@ abstract class XXX_FileSystem_Local
 				{
 					$result = false;
 					
-					$userID = fileowner($path);
-					$userName = posix_getpwuid($userID);
-					$userName = $userName['name'];
-					
-					if ($userID !== false)
-					{
-						$result = array
-						(
-							'ID' => $userID,
-							'name' => $userName
-						);
+					if (function_exists('posix_getpwuid'))
+					{					
+						$userID = fileowner($path);
+						$userName = posix_getpwuid($userID);
+						$userName = $userName['name'];
+						
+						if ($userID !== false)
+						{
+							$result = array
+							(
+								'ID' => $userID,
+								'name' => $userName
+							);
+						}
 					}
 					
 					return $result;
@@ -1318,17 +1321,20 @@ abstract class XXX_FileSystem_Local
 				{
 					$result = false;
 					
-					$groupID = filegroup($path);
-					$groupName = posix_getgrgid($groupID);
-					$groupName = $groupName['name'];
-					
-					if ($userID !== false)
+					if (function_exists('posix_getgrgid'))
 					{
-						$result = array
-						(
-							'ID' => $groupID,
-							'name' => $groupName
-						);
+						$groupID = filegroup($path);
+						$groupName = posix_getgrgid($groupID);
+						$groupName = $groupName['name'];
+						
+						if ($userID !== false)
+						{
+							$result = array
+							(
+								'ID' => $groupID,
+								'name' => $groupName
+							);
+						}
 					}
 					
 					return $result;
