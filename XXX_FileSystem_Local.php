@@ -1767,7 +1767,7 @@ abstract class XXX_FileSystem_Local
 							{
 								foreach ($directoryContent['files'] as $file)
 								{								
-									if (!self::copyFile($file['path'], XXX_Path_Local::extendPath('AbsoluteLocal', $newPath, $file['file']), $overwrite))
+									if (!self::copyFile($file['path'], XXX_Path_Local::extendPath($newPath, $file['file']), $overwrite))
 									{
 										$result = false;
 									}

@@ -136,6 +136,25 @@ abstract class XXX_Log
 		
 		return $result;
 	}
+	
+	public static function rotate ()
+	{
+		/*
+		
+		File | Directory
+		
+		MaximumAge
+		
+		MaximumSize
+		
+		RotationsToKeep
+		
+		Compress
+		
+		PostRotationCallback
+		
+		*/
+	}
 }
 
 ?>
