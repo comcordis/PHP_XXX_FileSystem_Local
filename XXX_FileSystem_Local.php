@@ -442,7 +442,7 @@ abstract class XXX_FileSystem_Local
 				
 				if ($extension)
 				{
-					if (XXX_Array::hasValue(array('log', 'txt', 'sh', 'bash', 'php', 'conf', 'ini', 'html', 'htm', 'tmp', 'css', 'js'), $extension))
+					if (XXX_Array::hasValue(array('log', 'txt', 'sh', 'bash', 'php', 'conf', 'ini', 'html', 'htm', 'tmp', 'css', 'js', 'xml', 'json', 'yaml'), $extension))
 					{
 						$result = true;
 					}
