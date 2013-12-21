@@ -1701,6 +1701,8 @@ abstract class XXX_FileSystem_Local
 			{
 				$result = false;
 				
+				trigger_error($path, E_USER_ERROR);
+				
 				if (!self::doesDirectoryExist($path) && self::isNonSystemIdentifier($path))
 				{
 					$result = mkdir($path, self::$settings['defaultPermissions']['directory']);
