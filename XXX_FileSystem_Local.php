@@ -1701,8 +1701,6 @@ abstract class XXX_FileSystem_Local
 			{
 				$result = false;
 				
-				trigger_error($path, E_USER_ERROR);
-				
 				if (!self::doesDirectoryExist($path) && self::isNonSystemIdentifier($path))
 				{
 					$result = mkdir($path, self::$settings['defaultPermissions']['directory']);
@@ -1710,6 +1708,10 @@ abstract class XXX_FileSystem_Local
 					if ($result)
 					{
 						self::setDirectoryPermissions($path, self::$settings['defaultPermissions']['directory']);
+					}
+					else
+					{
+						trigger_error('Failed to create directory: "' . $path . '"', E_USER_ERROR);
 					}
 				}
 				else
