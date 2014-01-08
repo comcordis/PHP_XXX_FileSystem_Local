@@ -733,7 +733,8 @@ abstract class XXX_FileSystem_Local
 			{
 				return self::writeFileContent($path, '');
 			}
-				
+			
+						
 		////////////////////
 		// Access
 		////////////////////
