@@ -86,15 +86,12 @@ abstract class XXX_Log
 		return $result;
 	}
 	
-	public static function logLine ($lineContent = '', $log = 'development', $timestamp = null, $prefixDate = true, $allowLines = false)
+	public static function logLine ($lineContent = '', $log = 'development', $timestamp = null, $prefixDate = true)
 	{
 		$line = '';
 		
 		$lineContent = XXX_String::normalizeLineSeparators($lineContent);
-		if (!$allowLines)
-		{
-			$lineContent = XXX_String::replace($lineContent, XXX_String::$lineSeparator, ' ');
-		}
+		$lineContent = XXX_String::replace($lineContent, XXX_String::$lineSeparator, ' ');
 		
 		if ($prefixDate)
 		{
@@ -104,11 +101,6 @@ abstract class XXX_Log
 		$line .= $lineContent;
 		
 		return self::appendLine($line, $log);
-	}
-	
-	public static function logLines ($lineContent = '', $log = 'development', $timestamp = null, $prefixDate = true)
-	{
-		return self::logLine($lineContent, $log, $timestamp, $prefixDate, true);
 	}
 	
 	public static function getTimestamp ($timestamp = null)
