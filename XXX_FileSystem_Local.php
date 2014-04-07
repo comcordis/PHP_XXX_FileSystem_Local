@@ -1572,6 +1572,7 @@ abstract class XXX_FileSystem_Local
 						(
 							'path' => $directory['path'],
 							'directory' => $directory['directory'],
+							'modifiedTimestamp' => self::getFileModifiedTimestamp($directory['path']),
 							'owner' => self::getDirectoryOwner($directory['path']),
 							'permissions' => self::getDirectoryPermissions($directory['path'], true)
 						);
@@ -1589,6 +1590,7 @@ abstract class XXX_FileSystem_Local
 							'path' => $file['path'],
 							'file' => $file['file'],
 							'extension' => XXX_String::getFileExtension($file['file']),
+							'modifiedTimestamp' => self::getFileModifiedTimestamp($file['path']),
 							'size' => self::getFileSize($file['path']),
 							'mimeType' => self::getFileMIMEType($file['path']),
 							'textEditable' => self::isFileContentTextEditable($file['path']),
@@ -2056,7 +2058,7 @@ abstract class XXX_FileSystem_Local
 			{
 				return is_writable($path);
 			}
-					
+			
 			public static function isDirectoryContentAccessible ($path = '')
 			{
 				return is_executable($path);
