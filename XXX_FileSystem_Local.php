@@ -1406,14 +1406,149 @@ abstract class XXX_FileSystem_Local
 				return is_readable($path);
 			}
 			
+			public static function makeFileContentReadable ($path = '')
+			{
+				$permissions = self::getFilePermissions($path, true);
+				
+				$user = 0;
+			
+				$user += 4;
+				if ($permissions['user']['write'])
+				{
+					$user += 2;
+				}		
+				if ($permissions['user']['execute'])
+				{
+					$user += 1;
+				}
+				
+				$group = 0;
+				
+				$group += 4;
+				if ($permissions['group']['write'])
+				{
+					$group += 2;
+				}		
+				if ($permissions['group']['execute'])
+				{
+					$group += 1;
+				}
+				
+				$other = 0;
+				
+				$other += 4;
+				if ($permissions['other']['write'])
+				{
+					$other += 2;
+				}
+				if ($permissions['other']['execute'])
+				{
+					$other += 1;
+				}
+				
+				$permissions = $user . $group . $other;
+				
+				return self::setFilePermissions($path, $permissions);
+			}
+			
 			public static function isFileContentWritable ($path = '')
 			{
 				return is_writable($path);
 			}
 			
+			public static function makeFileContentWritable ($path = '')
+			{
+				$permissions = self::getFilePermissions($path, true);
+				
+				$user = 0;
+			
+				if ($permissions['user']['read'])
+				{
+					$user += 4;
+				}			
+				$user += 2;
+				if ($permissions['user']['execute'])
+				{
+					$user += 1;
+				}
+				
+				$group = 0;
+				
+				if ($permissions['group']['read'])
+				{
+					$group += 4;
+				}			
+				$group += 2;
+				if ($permissions['group']['execute'])
+				{
+					$group += 1;
+				}
+				
+				$other = 0;
+				
+				if ($permissions['other']['read'])
+				{
+					$other += 4;
+				}
+				$other += 2;
+				if ($permissions['other']['execute'])
+				{
+					$other += 1;
+				}
+				
+				$permissions = $user . $group . $other;
+				
+				return self::setFilePermissions($path, $permissions);
+			}
+			
 			public static function isFileExecutable ($path = '')
 			{
 				return is_executable($path);
+			}
+						
+			public static function makeFileExecutable ($path = '')
+			{
+				$permissions = self::getFilePermissions($path, true);
+				
+				$user = 0;
+			
+				if ($permissions['user']['read'])
+				{
+					$user += 4;
+				}			
+				if ($permissions['user']['write'])
+				{
+					$user += 2;
+				}		
+				$user += 1;
+				
+				$group = 0;
+				
+				if ($permissions['group']['read'])
+				{
+					$group += 4;
+				}			
+				if ($permissions['group']['write'])
+				{
+					$group += 2;
+				}		
+				$group += 1;
+				
+				$other = 0;
+				
+				if ($permissions['other']['read'])
+				{
+					$other += 4;
+				}
+				if ($permissions['other']['write'])
+				{
+					$other += 2;
+				}
+				$other += 1;
+				
+				$permissions = $user . $group . $other;
+				
+				return self::setFilePermissions($path, $permissions);
 			}
 				
 	////////////////////
@@ -2054,14 +2189,149 @@ abstract class XXX_FileSystem_Local
 				return is_readable($path);
 			}
 			
+			public static function makeDirectoryContentReadable ($path = '', $recursive = false)
+			{
+				$permissions = self::getDirectoryPermissions($path, true);
+				
+				$user = 0;
+			
+				$user += 4;
+				if ($permissions['user']['write'])
+				{
+					$user += 2;
+				}		
+				if ($permissions['user']['execute'])
+				{
+					$user += 1;
+				}
+				
+				$group = 0;
+				
+				$group += 4;
+				if ($permissions['group']['write'])
+				{
+					$group += 2;
+				}		
+				if ($permissions['group']['execute'])
+				{
+					$group += 1;
+				}
+				
+				$other = 0;
+				
+				$other += 4;
+				if ($permissions['other']['write'])
+				{
+					$other += 2;
+				}
+				if ($permissions['other']['execute'])
+				{
+					$other += 1;
+				}
+				
+				$permissions = $user . $group . $other;
+				
+				return self::setDirectoryPermissions($path, $permissions, $recursive);
+			}
+			
 			public static function isDirectoryContentWritable ($path = '')
 			{
 				return is_writable($path);
 			}
 			
+			public static function makeDirectoryContentWritable ($path = '', $recursive = false)
+			{
+				$permissions = self::getDirectoryPermissions($path, true);
+				
+				$user = 0;
+			
+				if ($permissions['user']['read'])
+				{
+					$user += 4;
+				}			
+				$user += 2;
+				if ($permissions['user']['execute'])
+				{
+					$user += 1;
+				}
+				
+				$group = 0;
+				
+				if ($permissions['group']['read'])
+				{
+					$group += 4;
+				}			
+				$group += 2;
+				if ($permissions['group']['execute'])
+				{
+					$group += 1;
+				}
+				
+				$other = 0;
+				
+				if ($permissions['other']['read'])
+				{
+					$other += 4;
+				}
+				$other += 2;
+				if ($permissions['other']['execute'])
+				{
+					$other += 1;
+				}
+				
+				$permissions = $user . $group . $other;
+				
+				return self::setDirectoryPermissions($path, $permissions, $recursive);
+			}
+			
 			public static function isDirectoryContentAccessible ($path = '')
 			{
 				return is_executable($path);
+			}
+			
+			public static function makeDirectoryContentAccessible ($path = '', $recursive = false)
+			{
+				$permissions = self::getDirectoryPermissions($path, true);
+				
+				$user = 0;
+			
+				if ($permissions['user']['read'])
+				{
+					$user += 4;
+				}			
+				if ($permissions['user']['write'])
+				{
+					$user += 2;
+				}		
+				$user += 1;
+				
+				$group = 0;
+				
+				if ($permissions['group']['read'])
+				{
+					$group += 4;
+				}			
+				if ($permissions['group']['write'])
+				{
+					$group += 2;
+				}		
+				$group += 1;
+				
+				$other = 0;
+				
+				if ($permissions['other']['read'])
+				{
+					$other += 4;
+				}
+				if ($permissions['other']['write'])
+				{
+					$other += 2;
+				}
+				$other += 1;
+				
+				$permissions = $user . $group . $other;
+				
+				return self::setDirectoryPermissions($path, $permissions, $recursive);
 			}
 		
 	
@@ -2069,84 +2339,84 @@ abstract class XXX_FileSystem_Local
 	{
 		// Owner
 			
-			self::setDirectoryOwnerAdvanced('/application', 'apache', 'intermediateApplication');		
-			self::setDirectoryOwnerAdvanced('/application/data', 'apache', 'intermediateApplication');
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application', 'apache', 'intermediateApplication');		
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data', 'apache', 'intermediateApplication');
 			
-			self::setDirectoryOwnerAdvanced('/application/data/backUps', 'apache', 'intermediateApplication', true, true);
-			self::setDirectoryOwnerAdvanced('/application/data/userFiles', 'apache', 'intermediateApplication', true, true);
-			self::setDirectoryOwnerAdvanced('/application/data/quarantinedFiles', 'root', 'intermediateApplication', true, true);
-			self::setDirectoryOwnerAdvanced('/application/data/ftpImportExport', 'ftpImportExport', 'intermediateApplication', true, true);
-			self::setDirectoryOwnerAdvanced('/application/data/mySQL', 'mysql', 'mysql', true, true);
-			self::setDirectoryOwnerAdvanced('/application/data/logs/application', 'apache', 'intermediateApplication', true, true);
-			self::setDirectoryOwnerAdvanced('/application/data/logs/mySQL', 'mysql', 'mysql', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data/backUps', 'apache', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data/userFiles', 'apache', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data/quarantinedFiles', 'root', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data/ftpImportExport', 'ftpImportExport', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data/mySQL', 'mysql', 'mysql', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data/logs/application', 'apache', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/data/logs/mySQL', 'mysql', 'mysql', true, true);
 			
-			self::setDirectoryOwnerAdvanced('/application/source', 'apache', 'intermediateApplication');
-			self::setDirectoryOwnerAdvanced('/application/source/apache', 'root', 'root');
-			self::setDirectoryOwnerAdvanced('/application/source/documentation', 'apache', 'intermediateApplication', true, true);
-			self::setDirectoryOwnerAdvanced('/application/source/dynamic', 'apache', 'intermediateApplication', true, true);
-			self::setDirectoryOwnerAdvanced('/application/source/static', 'apache', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/source', 'apache', 'intermediateApplication');
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/source/apache', 'root', 'root');
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/source/documentation', 'apache', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/source/dynamic', 'apache', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/source/static', 'apache', 'intermediateApplication', true, true);
 			
-			self::setDirectoryOwnerAdvanced('/application/development', 'apache', 'intermediateApplication', true, true);
+			XXX_FileSystem_Local::setDirectoryOwnerAdvanced('/application/development', 'apache', 'intermediateApplication', true, true);
 		
 		// Permissions
 			
-			self::setDirectoryPermissions('/application', '771');
+			XXX_FileSystem_Local::setDirectoryPermissions('/application', '771');
 			
-			self::setDirectoryPermissions('/application/data', '770');
-			self::setDirectoryPermissions('/application/data/backUps', '770', true);			
-			self::setFilePermissionsInDirectory('/application/data/backUps', '660', true);
-			self::setDirectoryPermissions('/application/data/mySQL', '770', true);	
-			self::setFilePermissionsInDirectory('/application/data/mySQL', '760', true);
-			self::setDirectoryPermissions('/application/data/ftpImportExport', '770', true);
-			self::setFilePermissionsInDirectory('/application/data/ftpImportExport', '660', true);		
-			self::setDirectoryPermissions('/application/data/logs', '711');		
-			self::setDirectoryPermissions('/application/data/logs/application', '711', true);	
-			self::setFilePermissionsInDirectory('/application/data/logs/application', '660', true);						
-			self::setFilePermissionsInDirectory('/application/data/userFiles', '660', true);			
+			XXX_FileSystem_Local::setDirectoryPermissions('/application/data', '770');
+			XXX_FileSystem_Local::setDirectoryPermissions('/application/data/backUps', '770', true);			
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/data/backUps', '660', true);
+			XXX_FileSystem_Local::setDirectoryPermissions('/application/data/mySQL', '770', true);	
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/data/mySQL', '760', true);
+			XXX_FileSystem_Local::setDirectoryPermissions('/application/data/ftpImportExport', '770', true);
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/data/ftpImportExport', '660', true);		
+			XXX_FileSystem_Local::setDirectoryPermissions('/application/data/logs', '711');		
+			XXX_FileSystem_Local::setDirectoryPermissions('/application/data/logs/application', '711', true);	
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/data/logs/application', '660', true);						
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/data/userFiles', '660', true);			
 		
-			self::setDirectoryPermissions('/application/source', '770', true);
-			self::setFilePermissionsInDirectory('/application/source/static', '660', true);
-			self::setFilePermissionsInDirectory('/application/source/dynamic', '660', true);
-			self::setFilePermissionsInDirectory('/application/source/apache', '660', true);
-			self::setFilePermissionsInDirectory('/application/source/documentation', '660', true);
+			XXX_FileSystem_Local::setDirectoryPermissions('/application/source', '770', true);
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/source/static', '660', true);
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/source/dynamic', '660', true);
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/source/apache', '660', true);
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/source/documentation', '660', true);
 		
-			self::setFilePermissionsInDirectory('/application/development', '660', true);
+			XXX_FileSystem_Local::setFilePermissionsInDirectory('/application/development', '660', true);
 	}
 	
 	
 	public static function correctDirectoryStructure ()
 	{
-		self::createDirectory('/application/data');
-		self::createDirectory('/application/data/backUps');
-		self::createDirectory('/application/data/cache');
-		self::createDirectory('/application/data/userFiles');
-		self::createDirectory('/application/data/userFiles/httpFileUploads');
-		self::createDirectory('/application/data/userFiles/httpFileUploads/globalFileSystemStorageQueue');
-		self::createDirectory('/application/data/userFiles/httpFileUploads/temporary');
-		self::createDirectory('/application/data/userFiles/fileShards');
-		self::createDirectory('/application/data/quarantinedFiles');
-		self::createDirectory('/application/data/mySQL');
-		self::createDirectory('/application/data/mySQL/raw');
-		self::createDirectory('/application/data/logs');
-		self::createDirectory('/application/data/logs/mySQL');
-		self::createDirectory('/application/data/logs/apache');
-		self::createDirectory('/application/data/logs/clamAV');
-		self::createDirectory('/application/data/logs/php');
-		self::createDirectory('/application/data/logs/application');
+		XXX_FileSystem_Local::createDirectory('/application/data');
+		XXX_FileSystem_Local::createDirectory('/application/data/backUps');
+		XXX_FileSystem_Local::createDirectory('/application/data/cache');
+		XXX_FileSystem_Local::createDirectory('/application/data/userFiles');
+		XXX_FileSystem_Local::createDirectory('/application/data/userFiles/httpFileUploads');
+		XXX_FileSystem_Local::createDirectory('/application/data/userFiles/httpFileUploads/globalFileSystemStorageQueue');
+		XXX_FileSystem_Local::createDirectory('/application/data/userFiles/httpFileUploads/temporary');
+		XXX_FileSystem_Local::createDirectory('/application/data/userFiles/fileShards');
+		XXX_FileSystem_Local::createDirectory('/application/data/quarantinedFiles');
+		XXX_FileSystem_Local::createDirectory('/application/data/mySQL');
+		XXX_FileSystem_Local::createDirectory('/application/data/mySQL/raw');
+		XXX_FileSystem_Local::createDirectory('/application/data/logs');
+		XXX_FileSystem_Local::createDirectory('/application/data/logs/mySQL');
+		XXX_FileSystem_Local::createDirectory('/application/data/logs/apache');
+		XXX_FileSystem_Local::createDirectory('/application/data/logs/clamAV');
+		XXX_FileSystem_Local::createDirectory('/application/data/logs/php');
+		XXX_FileSystem_Local::createDirectory('/application/data/logs/application');
 		
-		self::createDirectory('/application/source');
-		self::createDirectory('/application/source/apache');
-		self::createDirectory('/application/source/apache/configuration');
-		self::createDirectory('/application/source/apache/certificatesAndKeys');
-		self::createDirectory('/application/source/documentation');
-		self::createDirectory('/application/source/dynamic/core');
-		self::createDirectory('/application/source/dynamic/entryPoint');
-		self::createDirectory('/application/source/static');
-		self::createDirectory('/application/source/static/core');
-		self::createDirectory('/application/source');
-		self::createDirectory('/application/source');
-		self::createDirectory('/application/source');
-		self::createDirectory('/application/source');
+		XXX_FileSystem_Local::createDirectory('/application/source');
+		XXX_FileSystem_Local::createDirectory('/application/source/apache');
+		XXX_FileSystem_Local::createDirectory('/application/source/apache/configuration');
+		XXX_FileSystem_Local::createDirectory('/application/source/apache/certificatesAndKeys');
+		XXX_FileSystem_Local::createDirectory('/application/source/documentation');
+		XXX_FileSystem_Local::createDirectory('/application/source/dynamic/core');
+		XXX_FileSystem_Local::createDirectory('/application/source/dynamic/entryPoint');
+		XXX_FileSystem_Local::createDirectory('/application/source/static');
+		XXX_FileSystem_Local::createDirectory('/application/source/static/core');
+		XXX_FileSystem_Local::createDirectory('/application/source');
+		XXX_FileSystem_Local::createDirectory('/application/source');
+		XXX_FileSystem_Local::createDirectory('/application/source');
+		XXX_FileSystem_Local::createDirectory('/application/source');
 	}
 }
 
