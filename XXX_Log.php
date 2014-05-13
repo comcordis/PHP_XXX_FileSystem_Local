@@ -135,14 +135,36 @@ abstract class XXX_Log
 		
 		if (XXX_Array::hasKey(self::$buffers, $log))
 		{
-			self::$buffers[$log] = '';;
+			self::$buffers[$log] = '';
 			
-			$logFile = XXX_Path_Local::$deploymentDataPathPrefix . 'logs' . XXX_OperatingSystem::$directorySeparator . $log . '.log';
+			$logFile = XXX_Path_Local::extendPath(XXX_Path_Local::$deploymentDataPathPrefix, array('logs', $log . '.log'));
 			
 			$result = XXX_FileSystem_Local::writeFileContent($logFile, '');
 		}
 		
 		return $result;
+	}
+	
+	public static function resetLogs ()
+	{
+		foreach (self::$buffers as $key => $value)
+		{
+			self::$buffers[$key] = '';
+		}
+		
+		XXX_FileSystem_Local::emptyDirectory(XXX_Path_Local::extendPath(XXX_Path_Local::$deploymentDataPathPrefix, 'logs'));
+	}
+	
+	public static function doesLogHavePart ($part = '', $log = 'development')
+	{
+		$logFile = XXX_Path_Local::extendPath(XXX_Path_Local::$deploymentDataPathPrefix, array('logs', $log . '.log'));
+			
+		$logFileContent = XXX_FileSystem_Local::getFileContent($logFile);
+		
+		if (XXX_String::hasPart($logFileContent, $part))
+		{
+			$result = true;
+		}
 	}
 	
 	public static function rotate ()
