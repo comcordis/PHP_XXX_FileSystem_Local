@@ -2335,6 +2335,40 @@ abstract class XXX_FileSystem_Local
 			}
 		
 	
+	public static function purgeDirectoryWithTimestampPartsForRetention ($path = '', $days = 7)
+	{
+		$now = XXX_TimestampHelpers::getCurrentTimestamp();
+		
+		$selectedSearchQuery_resultsDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($path);
+		
+		foreach ($selectedSearchQuery_resultsDirectoryContent['directories'] as $yearDirectory)
+		{
+			$yearDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($yearDirectory['path']);
+			
+			foreach ($yearDirectoryContent['directories'] as $monthDirectory)
+			{
+				$monthDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($monthDirectory['path']);
+				
+				foreach ($monthDirectoryContent['directories'] as $dateDirectory)
+				{
+					$dateDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($dateDirectory['path']);
+					
+					$year = XXX_Type::makeInteger($yearDirectory['directory']);
+					$month = XXX_Type::makeInteger($monthDirectory['directory']);
+					$date = XXX_Type::makeInteger($dateDirectory['directory']);
+					
+					$directoryTimestamp = new XXX_Timestamp(array('year' => $year, 'month' => $month, 'date' => $date));
+					$directoryTimestamp = $directoryTimestamp->get();
+					
+					if ($now - $directoryTimestamp > $days * 86400)
+					{
+						self::emptyDirectory($dateDirectory['path']);
+					}
+				}
+			}
+		}
+	}
+	
 	public static function correctOwnerAndPermissions ()
 	{
 		// Owner
