@@ -2362,7 +2362,7 @@ abstract class XXX_FileSystem_Local
 					
 					if ($now - $directoryTimestamp > $days * 86400)
 					{
-						self::emptyDirectory($dateDirectory['path']);
+						self::deleteDirectory($dateDirectory['path']);
 					}
 				}
 			}
