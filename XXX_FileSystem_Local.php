@@ -770,7 +770,7 @@ abstract class XXX_FileSystem_Local
 						$clear = true;
 						
 						if ($newPathExists)
-						{					
+						{
 							if (!self::deleteFile($newPath))
 							{
 								$clear = false;
