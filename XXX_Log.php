@@ -96,12 +96,20 @@ abstract class XXX_Log
 			$lineContent = XXX_String::replace($lineContent, XXX_String::$lineSeparator, ' ');
 		}
 		
-		if ($prefixDate)
-		{
-			$line .= self::getTimestamp($timestamp) . ' ';
+		$line = $lineContent;
+		
+		if ($log == 'security')
+		{		
+			if (XXX_PHP::$executionEnvironment == 'httpServer')
+			{
+				$line = XXX_HTTPServer_Client::$ipAddress . ' "' . XXX_String::addSlashes(XXX_HTTPServer_Client::$userAgentString) . '" "' . XXX_String::addSlashes(XXX_HTTPServer_Client::$uri) . '" ' . $line;
+			}
 		}
 		
-		$line .= $lineContent;
+		if ($prefixDate)
+		{
+			$line = self::getTimestamp($timestamp) . ' ' . $line;
+		}
 		
 		return self::appendLine($line, $log);
 	}

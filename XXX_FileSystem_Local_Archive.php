@@ -46,6 +46,7 @@ class XXX_FileSystem_Local_Archive
 			
 			return $result;
 		}
+		
 		// tar -zxvf /path/to/archive.tar.gz
 		// x = extract
 		
