@@ -2345,16 +2345,16 @@ abstract class XXX_FileSystem_Local
 		{
 			$yearDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($yearDirectory['path']);
 			
+			$year = XXX_Type::makeInteger($yearDirectory['directory']);
+			
 			foreach ($yearDirectoryContent['directories'] as $monthDirectory)
 			{
 				$monthDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($monthDirectory['path']);
 				
+				$month = XXX_Type::makeInteger($monthDirectory['directory']);
+				
 				foreach ($monthDirectoryContent['directories'] as $dateDirectory)
 				{
-					$dateDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($dateDirectory['path']);
-					
-					$year = XXX_Type::makeInteger($yearDirectory['directory']);
-					$month = XXX_Type::makeInteger($monthDirectory['directory']);
 					$date = XXX_Type::makeInteger($dateDirectory['directory']);
 					
 					$directoryTimestamp = new XXX_Timestamp(array('year' => $year, 'month' => $month, 'date' => $date));
@@ -2365,6 +2365,27 @@ abstract class XXX_FileSystem_Local
 						self::deleteDirectory($dateDirectory['path']);
 					}
 				}
+				
+				$date = XXX_TimestampHelpers::getDayTotalInMonth($year, $month);
+				
+				$directoryTimestamp = new XXX_Timestamp(array('year' => $year, 'month' => $month, 'date' => $date));
+				$directoryTimestamp = $directoryTimestamp->get();
+				
+				if ($now - $directoryTimestamp > $days * 86400)
+				{
+					self::deleteDirectory($monthDirectory['path']);
+				}
+			}
+			
+			$month = 12;
+			$date = XXX_TimestampHelpers::getDayTotalInMonth($year, $month);
+			
+			$directoryTimestamp = new XXX_Timestamp(array('year' => $year, 'month' => $month, 'date' => $date));
+			$directoryTimestamp = $directoryTimestamp->get();
+			
+			if ($now - $directoryTimestamp > $days * 86400)
+			{
+				self::deleteDirectory($yearDirectory['path']);
 			}
 		}
 	}
