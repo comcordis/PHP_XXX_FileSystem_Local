@@ -178,6 +178,38 @@ class XXX_FileSystem_Local_Archive
 			
 			return $result;
 		}
+		
+	public static function createArchive ($archiveFilePath = '', $sourcePath = '', $password = '')
+	{
+		$result = false;
+		
+		if (XXX_OperatingSystem::$platformName == 'windows')
+		{
+			$result = self::createZipArchive($archiveFilePath, $sourcePath, $password);
+		}
+		else
+		{
+			$result = self::createTarGzipArchive($archiveFilePath, $sourcePath);
+		}
+		
+		return $result;
+	}
+	
+	public static function extractArchive ($archiveFilePath = '', $destinationPath = '', $password = '')
+	{
+		$result = false;
+		
+		if (XXX_OperatingSystem::$platformName == 'windows')
+		{
+			$result = self::createZipArchive($archiveFilePath, $destinationPath, $password);
+		}
+		else
+		{
+			$result = self::createTarGzipArchive($archiveFilePath, $destinationPath);
+		}
+		
+		return $result;
+	}
 }
 
 ?>
