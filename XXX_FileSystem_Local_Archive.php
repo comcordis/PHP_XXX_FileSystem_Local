@@ -78,6 +78,8 @@ class XXX_FileSystem_Local_Archive
 			return $result;
 		}
 		
+		// Windows: http://stahlworks.com/dev/?tool=zipunzip
+
 		// zip -r /path/to/archive.zip /path/to/input1 /path/to/input2 /path/to/input3
 		// zip -e -r -P password /path/to/archive.zip /path/to/input1 /path/to/input2 /path/to/input3
 		// -e = encrypt
@@ -178,7 +180,19 @@ class XXX_FileSystem_Local_Archive
 			
 			return $result;
 		}
-		
+	
+	public static function determineExtension ()
+	{
+		$result = '.tar.gz';
+
+		if (XXX_OperatingSystem::$platformName == 'windows')
+		{
+			$result = '.zip';
+		}
+
+		return $result;
+	}
+
 	public static function createArchive ($archiveFilePath = '', $sourcePath = '', $password = '')
 	{
 		$result = false;
@@ -201,11 +215,11 @@ class XXX_FileSystem_Local_Archive
 		
 		if (XXX_OperatingSystem::$platformName == 'windows')
 		{
-			$result = self::createZipArchive($archiveFilePath, $destinationPath, $password);
+			$result = self::extractZipArchive($archiveFilePath, $destinationPath, $password);
 		}
 		else
 		{
-			$result = self::createTarGzipArchive($archiveFilePath, $destinationPath);
+			$result = self::extractTarGzipArchive($archiveFilePath, $destinationPath);
 		}
 		
 		return $result;

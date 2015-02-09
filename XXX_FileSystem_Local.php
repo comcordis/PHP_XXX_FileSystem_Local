@@ -733,7 +733,79 @@ abstract class XXX_FileSystem_Local
 			{
 				return self::writeFileContent($path, '');
 			}
+		
+		////////////////////
+		// Rotation
+		////////////////////
+		
+			// 8 MB
+
+			public static function rotateFile ($path = '', $maximumFileSize = 8388608, $retention = 7)
+			{
+				$result = false;
+
+				if (self::doesFileExist($path))
+				{
+					if (self::getFileSize($path) > $maximumFileSize || 1 == 1)
+					{
+						$parentPath = XXX_Path_Local::getParentPath($path);
+						$fileName = self::getFileName($path);
+						$fileExtension = self::getFileExtension($path);
+
+						// Rotate files
+						for ($i = $retention + 31, $iEnd = 0; $i > $iEnd; --$i)
+						{
+							$tempOldPath = XXX_Path_Local::extendPath($parentPath, $fileName . '.' . $i . '.' . $fileExtension);
+
+							if (self::doesFileExist($tempOldPath))
+							{
+								if ($i >= $retention)
+								{
+									self::deleteFile($tempOldPath);
+								}
+								else
+								{
+									$tempNewPath = XXX_Path_Local::extendPath($parentPath, $fileName . '.' . ($i + 1) . '.' . $fileExtension);
+
+									self::copyFile($tempOldPath, $tempNewPath);
+								}
+							}
+						}
+
+						$tempOldPath = $path;
+						$tempNewPath = XXX_Path_Local::extendPath($parentPath, $fileName . '.1.' . $fileExtension);
+
+						self::copyFile($tempOldPath, $tempNewPath);
+
+						self::emptyFile($tempOldPath);
+
+						$result = true;
+					}
+				}
+
+				return $result;
+			}
+
+			public static function rotateDirectory ($path = '', $maximumFileSize = 8388608, $retention = 7)
+			{
+				$tempDirectoryContent = XXX_FileSystem_Local::getDirectoryContent($path);
 			
+				foreach ($tempDirectoryContent['files'] as $tempFile)
+				{
+					if (!XXX_String_Pattern::hasMatch($tempFile['file'], '\\.[0-9]{1,}\\.'))
+					{
+						self::rotateFile($tempFile['path'], $maximumFileSize, $retention);
+					}
+				}
+				
+				if ($recursive)
+				{
+					foreach ($tempDirectoryContent['directories'] as $tempDirectory)
+					{
+						self::rotateDirectory($tempDirectory['path'], $maximumFileSize, $retention);
+					}
+				}
+			}
 						
 		////////////////////
 		// Access

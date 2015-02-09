@@ -173,25 +173,13 @@ abstract class XXX_Log
 		{
 			$result = true;
 		}
+
+		return $result;
 	}
-	
-	public static function rotate ()
+
+	public static function rotateLogs ()
 	{
-		/*
-		
-		File | Directory
-		
-		MaximumAge
-		
-		MaximumSize
-		
-		RotationsToKeep
-		
-		Compress
-		
-		PostRotationCallback
-		
-		*/
+		XXX_FileSystem_Local::rotateDirectory(XXX_Path_Local::extendPath(XXX_Path_Local::$deploymentDataPathPrefix, 'logs'));
 	}
 }
 
