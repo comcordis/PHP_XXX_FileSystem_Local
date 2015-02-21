@@ -679,23 +679,23 @@ abstract class XXX_FileSystem_Local
 			{
 				$result = false;
 
-				echo 'KK1';
+				//echo 'KK1';
 
-				echo $path;
+				//echo $path;
 				
 				$pathExists = self::ensurePathExistenceByDestination($path);
 
-				echo $pathExists ? 'pathExists' : 'pathDoesNotExist';
+				//echo $pathExists ? 'pathExists' : 'pathDoesNotExist';
 				
-				echo $content;
+				//echo $content;
 				
-				echo '<hr>';
+				//echo '<hr>';
 
 				if (!$result && function_exists('file_put_contents'))
 				{
-					echo 'filePutContentst';
+					//echo 'filePutContentst';
 					$result = file_put_contents($path, $content);
-					echo $result ? 'true' : 'false';
+					//echo $result ? 'true' : 'false';
 				}
 
 				
@@ -705,10 +705,10 @@ abstract class XXX_FileSystem_Local
 					
 					if ($fileHandler)
 					{
-					echo 'fopen';
+					//echo 'fopen';
 						$result = fwrite($fileHandler, $content);
 						fclose($fileHandler);
-					echo $result ? 'true' : 'false';
+					//echo $result ? 'true' : 'false';
 
 						
 						$result = true;
