@@ -678,13 +678,21 @@ abstract class XXX_FileSystem_Local
 			public static function writeFileContent ($path = '', $content = '')
 			{
 				$result = false;
+
+				echo 'KK1';
 				
-				self::ensurePathExistenceByDestination($path);
+				$pathExists = self::ensurePathExistenceByDestination($path);
+
+				echo $pathExists ? 'pathExists' : 'pathDoesNotExist';
 				
+				/*
+
 				if (!$result && function_exists('file_put_contents'))
 				{
 					$result = file_put_contents($path, $content);
 				}
+
+				*/
 				
 				if (!$result)
 				{	
