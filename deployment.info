@@ -1,0 +1,6 @@
+project:XXX_FileSystem_Local_PHP
+deployEnvironment:development
+checkout:master
+commitHash:f48e6aa8a5e4e55f731bf43c830554d8fda19e7b
+timestamp:2015-04-13T09:44:16Z
+deployer:operations
